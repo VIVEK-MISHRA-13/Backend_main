@@ -20,6 +20,9 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const userModel = require('./models/user')
+const dbConnection = require('./config/db')
+// dbConnection();
 
 // Third party middleware
 // mogran is a logger which shows all the req and res related details on the terminal also with their run time
@@ -64,6 +67,26 @@ app.get('/',(req,res)=>{
 
 app.get('/about',(req,res)=>{
     res.send("This is about page");
+})
+
+app.get('/register',(req,res)=>{
+    res.render('register')
+})
+
+app.post('/register',async (req,res,next)=>{
+    // console.log(req.body);
+
+    // destructuring
+    const {username,email,password} = req.body;
+
+   const newUser =  await userModel.create({
+        username:username,
+        email:email,
+        password:password
+    })
+  
+    res.send(newUser);
+    
 })
 
 app.listen(3000,()=>{
