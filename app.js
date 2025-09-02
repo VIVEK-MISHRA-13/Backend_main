@@ -73,6 +73,8 @@ app.get('/register',(req,res)=>{
     res.render('register')
 })
 
+
+// creating using
 app.post('/register',async (req,res,next)=>{
     // console.log(req.body);
 
@@ -87,6 +89,41 @@ app.post('/register',async (req,res,next)=>{
   
     res.send(newUser);
     
+})
+
+// read operation by fetching all the data of users 
+app.get('/get-users',(req,res)=>{
+    // userModel.find({
+    //     username:"vikas"
+    // }).then((users)=>{
+    //     res.send(users);
+    // })
+
+    userModel.findOne({
+        username:'vivek mishra'
+    }).then((user)=>{
+        res.send(user);
+    })
+})
+
+
+app.get('/update-user',async (req,res)=>{
+    await userModel.findOneAndUpdate({
+        username:'vikas'
+    },{
+        email:'vikas@gmail.com'
+    })
+
+    res.send('user updated')
+})
+
+
+app.get('/delete-user',async(req,res)=>{
+    await userModel.findOneAndDelete({
+        username:'vikas'
+    })
+
+    res.send("user Deleted")
 })
 
 app.listen(3000,()=>{
